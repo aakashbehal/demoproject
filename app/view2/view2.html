@@ -1,5 +1,124 @@
-<p>This is the partial for view 2.</p>
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<style>
+	.carcontainer img{
+		display: block;
+		margin: 0 auto
+	}
+	.desc{
+		overflow: hidden;
+	}
+	.readmore1{
+		height: auto;
+	}
+	.readless1{
+		height: 100px;
+	}
+	.readmore{
+		color: #1565C0;
+		cursor: pointer
+	}
+	.overlay{
+		overflow: hidden;
+		position: absolute;
+		z-index: 1;
+		/*background-color: rgba(0,0,0,0.2);*/
+		width:100%;
+		height: 100%;
+		flex: 1;
+		padding-top: 200px;
+		text-align: center;
+	}
+	.overlay i{
+		color: black;
+		font-size: 36px
+	}
+	.similarproducts{
+		border: 1px solid lightgrey;
+		padding-top: 10px;
+		border-radius:5px;
+	}
+	.similarproducts img{
+		height: 100px
+	}
+	.off{
+		display: block;
+		width: 100%;
+		color: #C62828
+	}
+	.off span{
+		font-weight: 600
+	}
+	.markPrice{
+		text-decoration: line-through;
+		padding-left: 10px;
+		padding-right: 10px
+	}
+	.salePrice{
+
+	}
+</style>
+
+<div id="fixed" when-scrolled="loadMore()" ng-controller="View2Ctrl">
+	<div class="overlay" ng-if="loading">
+		<i class="fa fa-spinner fa-spin" ></i>
+	</div>
+	<div class="container" style="padding-top: 20px">
+		<div class="row">
+			<div class="col-lg-6 col-12 carcontainer">
+				<data-owl-carousel class="owl-carousel" data-options="owlOptionsTestimonials">
+			      <div owl-carousel-item="" ng-repeat="item in productInfo.images track by $index" class="item">
+			       		<img ng-src="{{item}}" alt="image" width="200">
+			      </div>
+			    </data-owl-carousel>
+			</div>
+			<div class="col-lg-6 col-12" style="padding:0px">
+				<div class="row name" style="margin: 0px">
+					<h4>{{productInfo.name}}</h4>
+				</div>
+				<md-divider></md-divider>
+				<div class="row desc" style="margin: 0px" ng-class="readmore2">
+					<p>{{productInfo.desc}}</p>
+				</div>
+				<p class="readmore" ng-click="readfunction()">Read {{readmore2 == 'readless1' ? 'more' : 'less'}}</p>
+				<md-divider></md-divider>
+
+				<div class="row price" style="margin: 0px">
+					<h6 class="price">Price</h6>
+					<p class="markPrice">{{productInfo.mark_price}}</p>
+					<p class="salePrice">{{productInfo.sale_price}}</p>
+					<br>
+					<p class="off">After {{productInfo.sale_msg}} you save <span>{{productInfo.mark_price - productInfo.sale_price}}</span></p>
+				</div>
+				<md-divider></md-divider>
+
+				<div class="row color" style="margin: 0px">
+					<h6 style="width:100%">Color Available</h6>
+					<md-button class="md-raised" ng-repeat="color in variants.Colour">{{color}}</md-button>
+				</div>
+				<md-divider></md-divider>
+
+				<div class="row size" style="margin: 0px">
+					<h6 style="width:100%">Storage Available</h6>
+					<md-button class="md-raised" ng-repeat="size in variants.Storage">{{size}}</md-button>
+				</div>
+				
+				<md-divider></md-divider>
+				<div style="margin: 40px 0px">
+						<md-button class="md-raised md-primary">Add To Card</md-button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container ">
+		<div class="col-12 similarproducts">
+			<p>Similar Products</p>
+			<data-owl-carousel class="owl-carousel" data-options="owlOptionsTestimonialMulti">
+			      <div owl-carousel-item="" ng-repeat="item in similarProducts[0].product_options track by $index" class="item">
+			       		<img ng-src="{{item.images[0]}}" alt="image" width="200" ui-sref="product_info({productId: item._id})">
+			      </div>
+			    </data-owl-carousel>
+		</div>
+		
+	</div>
+	
+</div>
